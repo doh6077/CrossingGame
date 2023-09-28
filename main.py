@@ -1,16 +1,30 @@
-# This is a sample Python script.
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import time
+from turtle import Screen
+from player import Player
+
+PLAYER1_STARTING_POSITION = (-50, -280)
+PLAYER2_STARTING_POSITION = (50, -280)
+
+screen = Screen()
+screen.setup(width=400, height=600)
+screen.tracer(0)
+screen.bgpic("cross2.png")
+screen.update()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Create two player instances with different shapes and starting positions
+player1 = Player("turtle", PLAYER1_STARTING_POSITION)
+player2 = Player("triangle", PLAYER2_STARTING_POSITION)
 
+screen.listen()
+screen.onkey(player1.go_up, "Up")
+screen.onkey(player1.go_down, "Down")
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+screen.onkey(player2.go_up, "w")
+screen.onkey(player2.go_down, "s")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+game_is_on = True
+while game_is_on:
+    time.sleep(0.1)
+    screen.update()
