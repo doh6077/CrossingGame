@@ -4,6 +4,7 @@ from turtle import Screen
 
 from car import Car
 from player import Player
+from scoreboard import Scoreboard
 
 PLAYER1_STARTING_POSITION = (-50, -280)
 PLAYER2_STARTING_POSITION = (50, -280)
@@ -15,6 +16,7 @@ screen.bgpic("cross2.png")
 screen.update()
 
 car = Car()
+scoreboard = Scoreboard()
 
 
 # Create two player instances with different shapes and starting positions
