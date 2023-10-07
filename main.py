@@ -3,9 +3,9 @@ import time
 from turtle import Screen
 
 from car import Car
-from player import Player
+from player import Player, FINISH_LINE_Y
 from scoreboard import Scoreboard
-
+IMAGE ="car.gif"
 PLAYER1_STARTING_POSITION = (-50, -280)
 PLAYER2_STARTING_POSITION = (50, -280)
 
@@ -14,7 +14,7 @@ screen.setup(width=400, height=600)
 screen.tracer(0)
 screen.bgpic("cross2.png")
 screen.update()
-
+screen.addshape(IMAGE)
 car = Car()
 scoreboard = Scoreboard()
 
@@ -40,8 +40,15 @@ while game_is_on:
     car.move_cars()
 
     for i in range(len(car.all_cars)):
-        if car.all_cars[i].distance(player1) < 20:  # Adjust the distance threshold as needed
+        if car.all_cars[i].distance(player1) < 20:
             player1.reset_position()
 
-        if car.all_cars[i].distance(player2) < 20:  # Adjust the distance threshold as needed
+        if car.all_cars[i].distance(player2) < 20:
             player2.reset_position()
+
+    if player1.ycor() > FINISH_LINE_Y and player2.ycor() > FINISH_LINE_Y:
+        player1.reset_position()
+        player2.reset_position()
+        car.increaseSpeed()
+        scoreboard.addscore()
+        scoreboard.increase_level()
