@@ -1,24 +1,19 @@
-from turtle import Turtle
-MOVE_DISTANCE = 10
-FINISH_LINE_Y = 275
+import pygame
 
-class Player(Turtle):
-    def __init__(self, shape, starting_position):
+MOVE_DISTANCE = 10
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self, starting_position, image):
         super().__init__()
-        self.shape(shape)
-        self.penup()
-        self.color("black")
-        self.starting_position = starting_position
-        self.goto(starting_position)
-        self.setheading(90)
+        self.image = pygame.image.load(image)
+        self.rect = self.image.get_rect()
+        self.rect.center = starting_position
 
     def go_up(self):
-        self.forward(MOVE_DISTANCE)
+        self.rect.y -= MOVE_DISTANCE
 
     def go_down(self):
-        self.backward(MOVE_DISTANCE)
+        self.rect.y += MOVE_DISTANCE
 
     def reset_position(self):
-        self.goto(self.starting_position)
-
-
+        self.rect.center = self.starting_position

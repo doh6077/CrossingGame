@@ -1,58 +1,71 @@
-
-import time
-from turtle import Screen
+import random
 import pygame
-
+import sys
 from car import Car
-from player import Player, FINISH_LINE_Y
-from scoreboard import Scoreboard
-IMAGE ="car.gif"
-PLAYER1_STARTING_POSITION = (-50, -280)
-PLAYER2_STARTING_POSITION = (50, -280)
-screen_width = 480
-screen_height = 640
+from player import Player
 
-screen = pygame.display.set_mode((screen_width,screen_height))
+SCREEN_WIDTH = 480
+SCREEN_HEIGHT = 640
+FINISH_LINE_Y = 275
+STARTING_MOVE_DISTANCE = 5
+MOVE_INCREMENT = 10
+
+pygame.init()
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Crossing Game")
-car = Car()
-scoreboard = Scoreboard()
+clock = pygame.time.Clock()
 
+background = pygame.image.load("background.png")
 
-# Create two player instances with different shapes and starting positions
-player1 = Player("turtle", PLAYER1_STARTING_POSITION)
-player2 = Player("triangle", PLAYER2_STARTING_POSITION)
+player1 = Player((SCREEN_WIDTH // 2 - 50, SCREEN_HEIGHT - 60), "woodstock.png")
+player1.image.set_colorkey((255, 255, 255))
+player2 = Player((SCREEN_WIDTH // 2 + 50, SCREEN_HEIGHT - 60), "snoopy.png")
+player2.image.set_colorkey((0, 0, 0))
 
-screen.listen()
-screen.onkey(player1.go_up, "Up")
-screen.onkey(player1.go_down, "Down")
+all_cars = pygame.sprite.Group()
 
-screen.onkey(player2.go_up, "w")
-screen.onkey(player2.go_down, "s")
+def create_car():
+    random_chance = random.randint(1, 20)
+    if random_chance == 1:
+        car = Car(SCREEN_WIDTH)
+        all_cars.add(car)
 
 game_is_on = True
 while game_is_on:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_is_on = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                player1.go_up()
+            elif event.key == pygame.K_DOWN:
+                player1.go_down()
+            elif event.key == pygame.K_w:
+                player2.go_up()
+            elif event.key == pygame.K_s:
+                player2.go_down()
 
-        time.sleep(0.1)
-        screen.update()
+    # Update player and car positions
+    player1.update()
+    player2.update()
+    create_car()
+    for car in all_cars:
+        car.move()
 
-        car.create_car()
-        car.move_cars()
+    if player1.rect.y <= FINISH_LINE_Y and player2.rect.y <= FINISH_LINE_Y:
+        player1.reset_position()
+        player2.reset_position()
 
-        for i in range(len(car.all_cars)):
-            if car.all_cars[i].distance(player1) < 20:
-                player1.reset_position()
+    if pygame.sprite.spritecollide(player1, all_cars, False) or pygame.sprite.spritecollide(player2, all_cars, False):
+        game_is_on = False
 
-            if car.all_cars[i].distance(player2) < 20:
-                player2.reset_position()
+    screen.blit(background, (0, 0))
+    screen.blit(player1.image, player1.rect)
+    screen.blit(player2.image, player2.rect)
+    all_cars.draw(screen)
 
-        if player1.ycor() > FINISH_LINE_Y and player2.ycor() > FINISH_LINE_Y:
-            player1.reset_position()
-            player2.reset_position()
-            car.increaseSpeed()
-            scoreboard.addscore()
-            scoreboard.increase_level()
+    pygame.display.update()
+    clock.tick(30)
 
 pygame.quit()
+sys.exit()

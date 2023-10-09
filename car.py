@@ -1,31 +1,21 @@
-from turtle import Turtle
+import pygame
 import random
 
 STARTING_MOVE_DISTANCE = 5
 MOVE_INCREMENT = 10
-IMAGE ="car.gif"
 
-class Car(Turtle):
-    def __init__(self):
+class Car(pygame.sprite.Sprite):
+    def __init__(self, screen_width):
         super().__init__()
-        self.all_cars =[]
-        self.car_speed=STARTING_MOVE_DISTANCE
+        self.image = pygame.image.load("car.png")
+        self.image.set_colorkey((0, 0, 0))
+        self.rect = self.image.get_rect()
+        self.rect.x = screen_width
+        self.rect.y = random.randint(50, 430)
+        self.speed = STARTING_MOVE_DISTANCE
 
+    def move(self):
+        self.rect.x -= self.speed
 
-    def create_car(self):
-        random_chance = random.randint(1,6)
-        if random_chance ==1:
-            new_car = Turtle()
-            new_car.shape("square")
-            new_car.shapesize(stretch_wid=1, stretch_len=2)
-            new_car.penup()
-            random_y = random.randint(-230, 230)
-            new_car.goto(300, random_y)
-            self.all_cars.append(new_car)
-    def move_cars(self):
-        for car in self.all_cars:
-            car.backward(STARTING_MOVE_DISTANCE)
-
-    def increaseSpeed(self):
-        self.car_speed += MOVE_INCREMENT
-
+    def increase_speed(self):
+        self.speed += MOVE_INCREMENT
