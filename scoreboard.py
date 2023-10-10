@@ -1,33 +1,31 @@
+import pygame
 
-from turtle import Turtle
 ALIGNMENT = "center"
-FONT = ("Courier", 18, "normal")
 
-
-class Scoreboard(Turtle):
+class Scoreboard(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-        self.level = 0
         self.score = 0
+        self.level = 0
         with open("score.txt") as data:
-            self.high_level = int(data.read())
-        self.color("black")
-        self.penup()
-        self.goto(0, 220)
-        self.hideturtle()
+            self.high_score = int(data.read())
+        self.font = pygame.font.Font(None, 30)
+        self.color = (0, 0, 0)
         self.update_scoreboard()
 
     def update_scoreboard(self):
-        self.clear()
-        self.write(f"Score: {self.level} High Score: {self.high_level}", align=ALIGNMENT, font=FONT)
+        score_text = f"Score: {self.score} High Score: {self.high_score}"
+        self.image = self.font.render(score_text, True, self.color)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (10, 10)
 
     def reset(self):
-        if self.level > self.high_level:
-            self.high_level = self.level
+        if self.score > self.high_level:
+            self.high_score = self.score
             with open("score.txt", mode="w") as file:
-                file.write(f"{self.high_level}")
-        self.level = 0
+                file.write(f"{self.high_score}")
+        self.score = 0
         self.update_scoreboard()
 
     def increase_level(self):
@@ -35,6 +33,5 @@ class Scoreboard(Turtle):
         self.update_scoreboard()
 
     def addscore(self):
-        self.score = self.score + 1
-        self.clear()
-        self.update_scoreboard()
+        self.score += 1
+        self.increase_level()
