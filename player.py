@@ -8,6 +8,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load(image)
         self.rect = self.image.get_rect()
         self.rect.center = starting_position
+        self.starting_position=starting_position
 
     def go_up(self):
         self.rect.y -= MOVE_DISTANCE
