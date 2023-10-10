@@ -1,8 +1,9 @@
 import pygame
 import random
 
-STARTING_MOVE_DISTANCE = 1
-MOVE_INCREMENT = 10
+STARTING_MOVE_DISTANCE = 5
+MOVE_INCREMENT = 5
+PERCENTAGE = 0.9
 
 class Car(pygame.sprite.Sprite):
     def __init__(self, screen_width):
@@ -19,6 +20,3 @@ class Car(pygame.sprite.Sprite):
 
     def increase_speed(self):
         self.speed += MOVE_INCREMENT
-
-    def decrease_speed(self):
-        self.speed -= MOVE_INCREMENT
