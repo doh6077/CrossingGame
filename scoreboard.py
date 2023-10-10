@@ -20,8 +20,9 @@ class Scoreboard(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (10, 10)
 
+
     def reset(self):
-        if self.score > self.high_level:
+        if self.score > self.high_score:
             self.high_score = self.score
             with open("score.txt", mode="w") as file:
                 file.write(f"{self.high_score}")
