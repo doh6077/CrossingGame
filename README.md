@@ -46,7 +46,7 @@ Move Down: 'S' key
 - When a player collects a key, the cars disappear for that stage.
 ![HighScoreUpdated](https://github.com/doh6077/CrossingGame/assets/134092191/26508508-39df-49f9-9eca-1f62310b31f9)
 - If they achieve the highest score, it is updated on the scoreboard.
-![PassingCars](https://github.com/doh6077/CrossingGame/assets/134092191/a7afffbd-003a-48dc-8093-948484d48221)
+![PlayScreen](https://github.com/doh6077/CrossingGame/assets/134092191/985d62bd-258a-4406-a61a-66c8f13a185b)
 - The play screen 
 ![scoreupdated](https://github.com/doh6077/CrossingGame/assets/134092191/0b8e0493-4674-4cd9-90d2-f00e55cfe769)
 - As players successfully reach the finish line, their scores are updated.
